@@ -1,0 +1,26 @@
+{
+    "name": "roseknife/zhuanzhancard",
+    "description": "转转卡",
+    "type": "library",
+    "keywords": [
+        "roseknife", "zhuanzhancard"
+    ],
+    "license": "GPL-3.0+",
+    "minimum-stability": "dev",
+    "homepage": "https://www.xmainc.com/",
+    "authors": [
+        {
+            "name": "RoseKnife Hua",
+            "email": "2786103@qq.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "RoseKnife\\Zhuanzhancard\\": "src"
+        }
+    } 
+}
