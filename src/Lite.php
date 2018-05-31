@@ -1,4 +1,5 @@
 <?php
+
 namespace RoseKnife\Zhuanzhancard;
 
 /**
@@ -11,10 +12,16 @@ namespace RoseKnife\Zhuanzhancard;
 class Lite
 {
 
-    private static $API_URL = "http://61.155.179.185:5001/"; //测试环境
-    private static $CHANNELKEY = "";  //改成你自己的
-    private static $CHANNEL_CODE = "TOURIST";
+    private $API_URL = "";
+    private $CHANNELKEY = "";
+    private $CHANNEL_CODE = "";
 
+    public function __construct($config)
+    {
+        $this->CHANNEL_CODE = $config['channel_code'];
+        $this->CHANNELKEY = $config['channel_key'];
+        $this->API_URL = $config['api_url'];
+    }
 
     /**
      * 发送请求
@@ -42,31 +49,31 @@ class Lite
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);  // 从证书中检查SSL加密算法是否存在
         $handles = curl_exec($ch);
         curl_close($ch);
-        return json_decode($handles,true);
+        return json_decode($handles, true);
     }
 
 
     /**
      * 转转卡下单
      */
-    public static function orderOpening($trade)
+    public function orderOpening($trade)
     {
         $obj = array_filter((array)$trade); //转数组移除空值
-        $obj['channelCode'] = self::$CHANNEL_CODE; //添加渠道值
-        $tempDetail=$obj['detailReqList']; //临时存放子订单
+        $obj['channelCode'] = $this->CHANNEL_CODE; //添加渠道值
+        $tempDetail = $obj['detailReqList']; //临时存放子订单
         unset($obj['detailReqList']); //移除子订单
         ksort($obj); //进行排序
-        $signStr="";
-        foreach ($obj as $k=>$v){
-            $signStr.=strtoupper($k."=".$v."&");
+        $signStr = "";
+        foreach ($obj as $k => $v) {
+            $signStr .= strtoupper($k . "=" . $v . "&");
         }
-        $signStr.="CHANNELKEY=".self::$CHANNELKEY;
-        $obj['token']=strtoupper(md5($signStr)); //设置签名
-        $obj['detailReqList']=$tempDetail; //归还子订单
+        $signStr .= "CHANNELKEY=" . $this->CHANNELKEY;
+        $obj['token'] = strtoupper(md5($signStr)); //设置签名
+        $obj['detailReqList'] = $tempDetail; //归还子订单
 
         ksort($obj);
         $data = json_encode($obj);
-        $result = self::postData(self::$API_URL.'interface/orderopening',$data);
+        $result = self::postData($this->API_URL . 'interface/orderopening', $data);
         return $result;
     }
 

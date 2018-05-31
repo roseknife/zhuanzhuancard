@@ -10,28 +10,35 @@ require_once "src/Lite.php";
 require_once "src/object/TradeInfo.php";
 require_once "src/object/DetailReqList.php";
 
+//配制信息,换成你自己的
+$config =[
+    'channel_code'=>'',
+    'channel_key'=>'',
+    'api_url'=>''
+];
+
 //子订单信息
 
-$detail=new RoseKnife\Zhuanzhancard\object\DetailReqList();
+$detail = new RoseKnife\Zhuanzhancard\object\DetailReqList();
 $detail->address = "浙江省绍兴市";
-$detail->custName = "管利春";
+$detail->custName = "管利";
 $detail->custPhone = "18657555484";
 $detail->detailNo = "405125334321";  //子订单号，与主订单一样不可重复
 $detail->discountMoney = "0";
 $detail->num = "1";
 $detail->orderType = "0";
-$detail->packageMoney="1080";
-$detail->packageType="";
+$detail->packageMoney = "1080";
+$detail->packageType = "";
 $detail->preSupplyMoney = "0";
 $detail->remark = "";
 
-$detailArr[0]=$detail; //给到数组
+$detailArr[0] = $detail; //给到数组
 //$arr[1]=$detail;
 
 //订单信息
 $trade = new \RoseKnife\Zhuanzhancard\object\TradeInfo();
 $trade->address = "浙江省绍兴市";
-$trade->custName ="管利春";
+$trade->custName = "管利";
 $trade->custPhone = "18657555484";
 $trade->custPost = "000000";
 $trade->fetchType = "00";
@@ -48,7 +55,8 @@ $trade->detailReqList = $detailArr;  //给订单赋对象
 
 //下单
 
-$result=\RoseKnife\Zhuanzhancard\Lite::orderOpening($trade);
+$l = new \RoseKnife\Zhuanzhancard\Lite($trade);
+$result = $l->orderOpening($trade);
 print_r($result);
 
 
