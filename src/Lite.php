@@ -79,6 +79,8 @@ class Lite
 
     /**
      * 转转卡退款
+     * @param $trade object 退款对象OrderRefund
+     * @return mixed
      */
     public function orderRefund($trade){
         $obj = array_filter((array)$trade); //转数组移除空值
@@ -93,6 +95,23 @@ class Lite
         ksort($obj);
         $data = json_encode($obj);
         $result = self::postData($this->API_URL . 'interface/orderRefund', $data);
+        return $result;
+    }
+
+
+    public function orderinqury($trade){
+        $obj = array_filter((array)$trade); //转数组移除空值
+        $obj['channelCode'] = $this->CHANNEL_CODE; //添加渠道值
+        ksort($obj); //进行排序
+        $signStr = "";
+        foreach ($obj as $k => $v) {
+            $signStr .= strtoupper($k . "=" . $v . "&");
+        }
+        $signStr .= "CHANNELKEY=" . $this->CHANNELKEY;
+        $obj['token'] = strtoupper(md5($signStr)); //设置签名
+        ksort($obj);
+        $data = json_encode($obj);
+        $result = self::postData($this->API_URL . 'interface/orderinqury', $data);
         return $result;
     }
 
