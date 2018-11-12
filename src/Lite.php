@@ -78,7 +78,7 @@ class Lite
     }
 
     /**
-     * 转转退款
+     * 转转卡退款
      */
     public function orderRefund($trade){
         $obj = array_filter((array)$trade); //转数组移除空值
