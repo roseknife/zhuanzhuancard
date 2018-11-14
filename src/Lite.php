@@ -116,7 +116,7 @@ class Lite
         ksort($obj);
         $data = json_encode($obj);
 
-        $url = 'http://61.155.179.185/interface/orderinqury';
+        $url = 'http://61.155.179.185/interface/orderRefund';
         $headers = array(
             "Content-type: application/json;charset='utf-8'",
             "Accept: application/json",
